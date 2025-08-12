@@ -1,0 +1,11 @@
+<h1>{{ bibleCode() }}</h1>
+
+<ul>
+   @for (book of books; track book.code) {
+    <li>
+      <a [routerLink]="['/', bibleCode(), 'books', book.code]">
+        {{ book.title }} ({{ book.chapters }} chs)
+      </a>
+    </li>
+   }
+</ul>

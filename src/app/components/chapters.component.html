@@ -1,0 +1,33 @@
+<h1>
+  <span>{{ bibleCode() }}</span>
+  <span> - {{ book()?.title }}</span>
+  <span> · Chapter {{ currChapterNum() }}</span>
+</h1>
+
+<div class="d-flex flex-row gap-2">
+  <button type="button" class="btn btn-primary" [disabled]="currChapterNum() <= 1"
+    (click)="previousChapter()">Previous</button>
+  <button type="button" class="btn btn-primary" (click)="nextChapter()"
+    [disabled]="currChapterNum() >= (book()?.chapters ?? 1)">Next</button>
+  <button type="button" class="btn btn-primary" (click)="toggleChaptersDisplay()">
+    {{ isChapterPanelCollapsed() ? 'Show chapters' : 'Hide chapters' }}
+  </button>
+</div>
+
+@if (!isChapterPanelCollapsed()) {
+<div class="mb-3 row g-2">
+  <div class="col-auto">
+    @for (n of chapterRange(); track n) {
+    <button type="button" class="btn btn-sm btn-outline-dark" (click)="getChapterVerses(n)">{{ n }}</button>
+    }
+  </div>
+
+</div>
+}
+
+@for (v of verses(); track v.verse) {
+<div class="verse">
+  <span class="muted">{{ v.chapter }}:{{ v.verse }}</span>
+  &nbsp;{{ v.verseText }}
+</div>
+}
