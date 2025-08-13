@@ -1,3 +1,10 @@
-.main-container {
-  margin: 25px;
+main {
+  overflow-y: auto;
+  min-height: calc(100vh - 40px);
+  max-height: calc(100vh - 40px);
 }
+
+// footer {
+//   max-height: 40px;
+//   min-height: 40px;
+// }

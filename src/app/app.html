@@ -1,47 +1,18 @@
-<div class="navbar navbar-expand-lg bg-primary d-flex align-items-center">
-    <!-- <span class="fs-3 fw-bold"><mat-icon>home</mat-icon>Read the Word</span> -->
-    <a matButton class="fs-4" routerLink="/"><i class="fa-solid fa-book-bible me-2"></i>Read the Word</a>
-    <!-- <button matIconButton routerLink="/"><mat-icon>home</mat-icon></button> -->
-  <!-- <div class="d-flex align-items-center">
-  </div> -->
-</div>
-<!-- <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/">Read the Word</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-      </ul>
+<div class="d-flex flex-column vh-100">
+  <header>
+    <div class="navbar navbar-expand-lg bg-primary d-flex align-items-center">
+      <a matButton class="fs-4" routerLink="/"><i class="fa-solid fa-book-bible me-2"></i>Read the Word</a>
+      <a matButton routerLink="/"><i class="fa-solid fa-home"></i></a>
     </div>
-  </div>
-</nav> -->
-<!-- <mat-toolbar>
-  <button matIconButton routerLink="/"><mat-icon>home</mat-icon></button>
-  <span>Read the Word</span>
-</mat-toolbar> -->
-<div class="container">
-  <router-outlet />
-</div>
-<!-- <div class="container">
-  <router-outlet />
-</div> -->
-<!-- 
-  <footer>
-    <div class="body-content">
-      <p class="text-muted small">
-        Created by Mark Hollier<br />
-        Code released under <a href="https://opensource.org/licenses/MIT">The MIT License</a><br />
-        Slate theme by <a href="http://bootswatch.com/">Bootswatch</a>
-    </div>
-  </footer>
+  </header>
 
-</body>
--->
+  <main class="main-container flex-grow-1">
+    <router-outlet />
+  </main>
+
+  <!-- <footer class="bg-primary w-100">
+    <div class="text-muted small m-1">
+      Slate theme by <a href="http://bootswatch.com/">Bootswatch</a>
+    </div>
+  </footer> -->
+</div>

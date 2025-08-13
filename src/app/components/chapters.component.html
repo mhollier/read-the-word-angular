@@ -1,9 +1,31 @@
-<h1>
-  <span>{{ bibleCode() }}</span>
-  <span> - {{ book()?.title }}</span>
-  <span> · Chapter {{ currChapterNum() }}</span>
-</h1>
+<!-- <div class="d-flex flex-row gap-2 align-items-center">
+  <h3>
+    <span> {{ book()?.title }} </span>
+    <span> Chapter {{ currChapterNum() }}</span>
+  </h3>
+</div> -->
+<div class="d-flex flex-column">
 
+  <!-- Chapter navigation -->
+  <div class="d-flex flex-row gap-2 align-items-center justify-content-between">
+    <button type="button" class="btn btn-primary" [disabled]="currChapterNum() <= 1" (click)="previousChapter()">
+      <div class="d-flex flex-row flex-nowrap align-items-center"><i class="fa-solid fa-angle-left me-2"></i>Previous
+      </div>
+    </button>
+
+    <div class="container fs-5">
+      <div class="row justify-content-center">{{ book()?.title }}</div>
+      <div class="row justify-content-center">Chapter {{ currChapterNum() }}</div>
+    </div>
+
+    <button type="button" class="btn btn-primary me-2" (click)="nextChapter()"
+      [disabled]="currChapterNum() >= (book()?.chapters ?? 1)">
+      <div class="d-flex flex-row flex-nowrap align-items-center">Next<i class="fa-solid fa-angle-right"></i></div>
+    </button>
+
+  </div>
+
+  <!-- 
 <div class="d-flex flex-row gap-2">
   <button type="button" class="btn btn-primary" [disabled]="currChapterNum() <= 1"
     (click)="previousChapter()">Previous</button>
@@ -12,22 +34,27 @@
   <button type="button" class="btn btn-primary" (click)="toggleChaptersDisplay()">
     {{ isChapterPanelCollapsed() ? 'Show chapters' : 'Hide chapters' }}
   </button>
-</div>
+</div> -->
 
-@if (!isChapterPanelCollapsed()) {
-<div class="mb-3 row g-2">
-  <div class="col-auto">
-    @for (n of chapterRange(); track n) {
-    <button type="button" class="btn btn-sm btn-outline-dark" (click)="getChapterVerses(n)">{{ n }}</button>
-    }
+  @if (!isChapterPanelCollapsed()) {
+  <div class="mb-3 row g-2">
+    <div class="col-auto">
+      @for (n of chapterRange(); track n) {
+      <button type="button" class="btn btn-sm" (click)="getChapterVerses(n)">{{ n }}</button>
+      }
+    </div>
+
   </div>
+  }
 
-</div>
-}
+  <!-- Chapter text -->
+  <div class="flex-grow-1 overflow-auto p-3">
+    @for (v of verses(); track v.verse) {
+    <div class="verse">
+      <span class="muted">{{ v.chapter }}:{{ v.verse }}</span>
+      &nbsp;{{ v.verseText }}
+    </div>
+    }
 
-@for (v of verses(); track v.verse) {
-<div class="verse">
-  <span class="muted">{{ v.chapter }}:{{ v.verse }}</span>
-  &nbsp;{{ v.verseText }}
+  </div>
 </div>
-}

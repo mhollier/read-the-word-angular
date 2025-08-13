@@ -1,5 +1,0 @@
-<!-- Index of available bible versions/translations. -->
-  <h2>Bibles</h2>
-  @for (bible of bibleSummaries; track bible.code) {
-  <button type="button" class="btn btn-primary" [routerLink]="['/', bible.code, 'books']">{{ bible.title }}</button>
-  }

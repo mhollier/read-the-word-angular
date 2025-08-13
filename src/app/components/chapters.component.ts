@@ -16,7 +16,7 @@ export class ChaptersComponent {
   private route = inject(ActivatedRoute);
   private bibleService: BibleApiService = inject(BibleApiService);
   
-  bibleCode = signal('');
+  bibleCode = signal('WEB');
   bookCode = signal('');
 
   bible = signal<BibleSummary | null>(null);
@@ -29,7 +29,6 @@ export class ChaptersComponent {
 
   constructor() {
     this.route.params.subscribe((params) => {
-      this.bibleCode.set(params['bibleCode']);
       this.bookCode.set(params['bookCode']);
       this.book.set(this.bibleService.getBook(this.bibleCode(), this.bookCode()));
       this.chapterRange.set(Array.from({ length: this.book()?.chapters ?? 0 }, (_, i) => i + 1));
