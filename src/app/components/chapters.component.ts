@@ -43,7 +43,6 @@ export class ChaptersComponent {
   getChapterVerses(chapterNum: number) {
     this.currChapterNum.set(chapterNum);
     this.isChapterPanelCollapsed.set(true);
-    // emulate $anchorScroll('chapterTitle'):
     queueMicrotask(() => document.getElementById('chapterTitle')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
     this.fetchVerses(chapterNum);
   }

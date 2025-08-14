@@ -1,18 +1,19 @@
 <div class="d-flex flex-column vh-100">
   <header>
-    <div class="navbar navbar-expand-lg bg-primary d-flex align-items-center">
-      <a matButton class="fs-4" routerLink="/"><i class="fa-solid fa-book-bible me-2"></i>Read the Word</a>
-      <a matButton routerLink="/"><i class="fa-solid fa-home"></i></a>
+    <div class="text-white navbar navbar-expand bg-primary d-flex align-items-center p-2" data-bs-theme="dark">
+      <a class="navbar-brand me-4" routerLink="/"><i class="fa-solid fa-book-bible me-2"></i>Read the Word</a>
+      <!-- <a class="nav-link me-2" routerLink="/"><i class="fa-solid fa-list me-1"></i>Translations</a>
+      <a class="nav-link me-2" routerLink="/"><i class="fa-solid fa-book-open me-1"></i>Books</a> -->
     </div>
   </header>
 
-  <main class="main-container flex-grow-1">
+  <main class="main-container flex-grow-1 p-2">
     <router-outlet />
-  </main>
-
-  <!-- <footer class="bg-primary w-100">
-    <div class="text-muted small m-1">
+    <!-- <footer>
+    <div class="text-muted small p-2">
       Slate theme by <a href="http://bootswatch.com/">Bootswatch</a>
     </div>
   </footer> -->
+  </main>
+
 </div>
