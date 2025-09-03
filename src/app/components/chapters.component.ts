@@ -1,64 +1,66 @@
 import { Component, inject, signal } from '@angular/core';
 import { BibleApiService } from '../services/bible-api.service';
-import { BibleSummary, BookSummary, Verse } from '../models/bible.models';
-import { ActivatedRoute } from '@angular/router';
+import { BookSummary, Verse } from '../models/bible.models';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-chapters',
   standalone: true,
-  imports: [MatButtonModule],
+  imports: [MatExpansionModule, MatFormFieldModule, MatSelectModule, MatInputModule, FormsModule, MatButtonModule],
   styleUrl: './chapters.component.scss',
   templateUrl: './chapters.component.html',
 })
 export class ChaptersComponent {
- 
-  private route = inject(ActivatedRoute);
+  private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
+
   private bibleService: BibleApiService = inject(BibleApiService);
-  
-  bibleCode = signal('WEB');
-  bookCode = signal('');
 
-  bible = signal<BibleSummary | null>(null);
-  book = signal<BookSummary | null>(null);
-  verses = signal<ReadonlyArray<Verse>>([]);
-  chapterRange = signal<number[]>([]);
-  currChapterNum = signal<number>(Number(this.route.snapshot.paramMap.get('chapterNum') ?? '1'));
-  isChapterPanelCollapsed = signal<boolean>(true);
-
+  readonly bibleCode = signal('WEB');
+  readonly bookCode = signal('GEN');
+  readonly chapterNum = signal(1);
+  readonly book = signal<BookSummary | null>(null);
+  readonly verses = signal<ReadonlyArray<Verse>>([]);
+  readonly chapterRange = signal<number[]>([]);
+  readonly isChapterPanelCollapsed = signal<boolean>(false);
 
   constructor() {
-    this.route.params.subscribe((params) => {
+    console.log(this.activatedRoute);
+    this.activatedRoute.params.subscribe((params) => {
       this.bookCode.set(params['bookCode']);
+      this.chapterNum.set(+params['chapterNum']);
       this.book.set(this.bibleService.getBook(this.bibleCode(), this.bookCode()));
       this.chapterRange.set(Array.from({ length: this.book()?.chapters ?? 0 }, (_, i) => i + 1));
-      this.fetchVerses(this.currChapterNum())
+      this.getChapterVerses();
     });
   }
 
-  private fetchVerses(chapterNum: number): void {
-    this.verses.set(this.bibleService.getChapterVerses(this.bibleCode(), this.bookCode(), chapterNum));
-  }
-
-  getChapterVerses(chapterNum: number) {
-    this.currChapterNum.set(chapterNum);
+  getChapterVerses(): void {
     this.isChapterPanelCollapsed.set(true);
-    queueMicrotask(() => document.getElementById('chapterTitle')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
-    this.fetchVerses(chapterNum);
+    this.verses.set(this.bibleService.getChapterVerses(this.bibleCode(), this.bookCode(), this.chapterNum()));
   }
 
-
-  nextChapter() {
-    const nextNum = this.currChapterNum() + 1;
-    if (nextNum <= (this.book()?.chapters ?? 1)) this.getChapterVerses(nextNum);
+  nextChapter(): void {
+    const nextNum = this.chapterNum() + 1;
+    if (nextNum <= (this.book()?.chapters ?? 1)) {
+      this.router.navigate(['/', 'books', this.bookCode(), nextNum]);
+    }
   }
 
-  previousChapter() {
-    const prevNum = this.currChapterNum() - 1;
-    if (prevNum >= 1) this.getChapterVerses(prevNum);
+  previousChapter(): void {
+    const prevNum = this.chapterNum() - 1;
+    if (prevNum >= 1) {
+      this.router.navigate(['/', 'books', this.bookCode(), prevNum]);
+    }
   }
 
-  toggleChaptersDisplay() {
-    this.isChapterPanelCollapsed.set(!this.isChapterPanelCollapsed());
+  navigateToChapter(selectedChapter: number): void {
+    this.router.navigate(['/', 'books', this.bookCode(), selectedChapter]);
   }
 }

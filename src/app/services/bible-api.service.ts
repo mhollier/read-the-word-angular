@@ -9,6 +9,7 @@ export class BibleApiService {
   private bookSummaries: Array<BookSummary> = [];
 
   constructor() {
+    console.log('Parsing WEB');
     const web: BibleFull = JSON.parse(WorldEnglishBibleJson);
     this.bibles.push(web);
     this.summaries.push(web.info);

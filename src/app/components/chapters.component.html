@@ -1,39 +1,35 @@
 <div class="d-flex flex-column">
 
   <div class="d-flex flex-row gap-2 align-items-center justify-content-between">
-    <button type="button" class="btn btn-primary" [disabled]="currChapterNum() <= 1" (click)="previousChapter()">
+    <button type="button" class="btn btn-primary" [disabled]="chapterNum() <= 1" (click)="previousChapter()">
       <div class="d-flex flex-row flex-nowrap align-items-center"><i class="fa-solid fa-angle-left me-2"></i>Previous
       </div>
     </button>
 
-    <div class="container fs-5">
-      <div class="row justify-content-center">{{ book()?.title }}</div>
-      <div class="row justify-content-center">Chapter {{ currChapterNum() }}</div>
+    <div class="d-flex flex-row gap-2 align-items-center justify-content-center">
+      <div class="justify-content-center">{{ book()?.title }}</div>
+      <mat-form-field>
+        <mat-label>Chapter</mat-label>
+        <mat-select [value]="chapterNum()" (selectionChange)="navigateToChapter($event.value)">
+          @for (n of chapterRange(); track n) {
+          <mat-option [value]="n">{{ n }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
     </div>
 
     <button type="button" class="btn btn-primary me-2" (click)="nextChapter()"
-      [disabled]="currChapterNum() >= (book()?.chapters ?? 1)">
+      [disabled]="chapterNum() >= (book()?.chapters ?? 1)">
       <div class="d-flex flex-row flex-nowrap align-items-center">Next<i class="fa-solid fa-angle-right"></i></div>
     </button>
-
   </div>
-
-  @if (!isChapterPanelCollapsed()) {
-  <div class="mb-3 row g-2">
-    <div class="col-auto">
-      @for (n of chapterRange(); track n) {
-      <button type="button" class="btn btn-sm" (click)="getChapterVerses(n)">{{ n }}</button>
-      }
-    </div>
-
+  <div>
+ 
   </div>
-  }
-
   <div class="d-flex flex-column flex-grow-1 overflow-auto p-3 text-body">
     @for (v of verses(); track v.verse) {
-    
-      <div><sup class="muted">{{ v.verse }}</sup> {{ v.verseText }}</div>
-
+    <div><sup class="muted">{{ v.verse }}</sup> {{ v.verseText }}</div>
     }
   </div>
+
 </div>

@@ -1,6 +1,6 @@
-import { Component, inject, signal, WritableSignal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { BibleApiService } from '../services/bible-api.service';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { BookSummary } from '../models/bible.models';
 
 @Component({
@@ -11,21 +11,14 @@ import { BookSummary } from '../models/bible.models';
 })
 export class BooksComponent {
  
-  private activatedRoute = inject(ActivatedRoute);
-  private bibleService: BibleApiService = inject(BibleApiService);
-  
-  public books: ReadonlyArray<BookSummary> = this.bibleService.getBooks();
+  private bibleService: BibleApiService = inject(BibleApiService);  
+  books: ReadonlyArray<BookSummary> = this.bibleService.getBooks();
 
-  constructor() {
-    this.activatedRoute.params.subscribe((params) => {
-    });
-  }
-
-  public getOldTestamentBooks(): ReadonlyArray<BookSummary> {
+  getOldTestamentBooks(): ReadonlyArray<BookSummary> {
     return this.books.filter(b => b.testament === 'OT');
   }
 
-  public getNewTestamentBooks(): ReadonlyArray<BookSummary> {
+  getNewTestamentBooks(): ReadonlyArray<BookSummary> {
     return this.books.filter(b => b.testament === 'NT');
   }
   

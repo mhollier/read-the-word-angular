@@ -1,3 +1,12 @@
+@use '@angular/material' as mat;
+
+// Customize the entire app. Change :root to your selector if you want to scope the styles.
+:root {
+  @include mat.select-overrides((
+    panel-background-color: white,
+  ));
+}
+
 body {
   height: 100%;
   padding: 0;
