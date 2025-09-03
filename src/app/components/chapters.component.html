@@ -1,35 +1,34 @@
-<div class="d-flex flex-column">
-
-  <div class="d-flex flex-row gap-2 align-items-center justify-content-between">
-    <button type="button" class="btn btn-primary" [disabled]="chapterNum() <= 1" (click)="previousChapter()">
-      <div class="d-flex flex-row flex-nowrap align-items-center"><i class="fa-solid fa-angle-left me-2"></i>Previous
-      </div>
-    </button>
-
-    <div class="d-flex flex-row gap-2 align-items-center justify-content-center">
-      <div class="justify-content-center">{{ book()?.title }}</div>
-      <mat-form-field>
-        <mat-label>Chapter</mat-label>
-        <mat-select [value]="chapterNum()" (selectionChange)="navigateToChapter($event.value)">
-          @for (n of chapterRange(); track n) {
-          <mat-option [value]="n">{{ n }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <button type="button" class="btn btn-primary me-2" (click)="nextChapter()"
-      [disabled]="chapterNum() >= (book()?.chapters ?? 1)">
-      <div class="d-flex flex-row flex-nowrap align-items-center">Next<i class="fa-solid fa-angle-right"></i></div>
-    </button>
+<div class="col">
+  <div class="d-flex flex-row gap-2 align-items-center justify-content-center">
+    <div class="justify-content-center h4">{{ book()?.title }}</div>
+    <mat-form-field class="chapter-field">
+      <mat-label>Chapter</mat-label>
+      <mat-select [value]="chapterNum()" (selectionChange)="navigateToChapter($event.value)">
+        @for (n of chapterRange(); track n) {
+        <mat-option [value]="n">{{ n }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
   </div>
   <div>
- 
+
   </div>
   <div class="d-flex flex-column flex-grow-1 overflow-auto p-3 text-body">
     @for (v of verses(); track v.verse) {
     <div><sup class="muted">{{ v.verse }}</sup> {{ v.verseText }}</div>
     }
+  </div>
+
+  <div class="d-flex flex-row gap-2 align-items-center justify-content-between p-3 mb-3">
+    <button type="button" class="btn btn-primary" [disabled]="chapterNum() <= 1" (click)="previousChapter()">
+      <div class="d-flex flex-row flex-nowrap align-items-center"><i class="fa-solid fa-angle-left me-2"></i>Previous
+      </div>
+    </button>
+
+    <button type="button" class="btn btn-primary me-2" (click)="nextChapter()"
+      [disabled]="chapterNum() >= (book()?.chapters ?? 1)">
+      <div class="d-flex flex-row flex-nowrap align-items-center">Next<i class="fa-solid fa-angle-right"></i></div>
+    </button>
   </div>
 
 </div>
