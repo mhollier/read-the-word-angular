@@ -1,5 +1,5 @@
-<div class="col">
-  <div id="chapterTitle" class="d-flex flex-row gap-2 align-items-center justify-content-center">
+<div class="d-flex flex-column h-100">
+  <div class="flex-shrink-0 d-flex flex-row gap-2 align-items-center justify-content-center">
     <div class="justify-content-center h4">{{ book()?.title }}</div>
     <mat-form-field class="chapter-field">
       <mat-label>Chapter</mat-label>
@@ -13,11 +13,11 @@
   
   <div class="verses-container d-flex flex-column flex-grow-1 overflow-auto p-3 text-body">
     @for (v of verses(); track v.verse) {
-    <div><sup class="muted">{{ v.verse }}</sup> {{ v.verseText }}</div>
+    <div id="verse-{{v.verse}}"><sup class="muted">{{ v.verse }}</sup> {{ v.verseText }}</div>
     }
   </div>
 
-  <div class="d-flex flex-row gap-2 align-items-center justify-content-between p-3 mb-3">
+  <div class="d-flex flex-shrink-0 flex-row gap-2 align-items-center justify-content-between p-3 mb-3">
     <button type="button" class="btn btn-primary" [disabled]="chapterNum <= 1" (click)="previousChapter()">
       <div class="d-flex flex-row flex-nowrap align-items-center"><i class="fa-solid fa-angle-left me-2"></i>Previous
       </div>
