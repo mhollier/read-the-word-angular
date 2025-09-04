@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,12 +11,6 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App implements OnInit {
+export class App {
   protected readonly title = 'Read the Word'
-
-  public ngOnInit(): void {
-    // console.log('Parsing Bible');
-    // const parsed = JSON.parse(WorldEnglishBibleJson);
-    // console.log('Done!')
-  }
 }
