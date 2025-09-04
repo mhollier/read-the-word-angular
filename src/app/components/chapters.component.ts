@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, Input, numberAttribute, OnChanges, signal, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, inject, input, numberAttribute, OnChanges, signal, SimpleChanges } from '@angular/core';
 import { BibleApiService } from '../services/bible-api.service';
 import { BookSummary, Verse } from '../models/bible.models';
 import { Router } from '@angular/router';
@@ -21,8 +21,8 @@ export class ChaptersComponent implements OnChanges {
   private bibleService = inject(BibleApiService);
   private elementRef = inject(ElementRef);
 
-  @Input() bookCode = '';
-  @Input({ transform: numberAttribute }) chapterNum = 0;
+  bookCode = input<string>('');
+  chapterNum = input(0, { transform: numberAttribute });
 
   readonly bibleCode = signal('WEB');
   readonly book = signal<BookSummary | null>(null);
@@ -34,9 +34,9 @@ export class ChaptersComponent implements OnChanges {
   }
 
   refresh(): void {
-    this.book.set(this.bibleService.getBook(this.bibleCode(), this.bookCode));
+    this.book.set(this.bibleService.getBook(this.bibleCode(), this.bookCode()));
     this.chapterRange.set(Array.from({ length: this.book()?.chapters ?? 0 }, (_, i) => i + 1));
-    this.verses.set(this.bibleService.getChapterVerses(this.bibleCode(), this.bookCode, this.chapterNum));
+    this.verses.set(this.bibleService.getChapterVerses(this.bibleCode(), this.bookCode(), this.chapterNum()));
 
     this.elementRef.nativeElement.querySelector('#verse-1')?.scrollIntoView({
       behavior: "instant",
@@ -46,20 +46,20 @@ export class ChaptersComponent implements OnChanges {
   }
 
   nextChapter(): void {
-    const nextNum = this.chapterNum + 1;
+    const nextNum = this.chapterNum() + 1;
     if (nextNum <= (this.book()?.chapters ?? 1)) {
       this.navigateToChapter(nextNum);
     }
   }
 
   previousChapter(): void {
-    const prevNum = this.chapterNum - 1;
+    const prevNum = this.chapterNum() - 1;
     if (prevNum >= 1) {
       this.navigateToChapter(prevNum);
     }
   }
 
   navigateToChapter(selectedChapter: number): void {
-    this.router.navigate(['/', 'books', this.bookCode, selectedChapter]);
+    this.router.navigate(['/', 'books', this.bookCode(), selectedChapter]);
   }
 }
