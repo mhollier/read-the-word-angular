@@ -1,0 +1,26 @@
+<div class="d-flex flex-column p-3">
+  <div class="text-center h3">Random Verse</div>
+
+  <div class="verses-container d-flex flex-column flex-grow-1 overflow-auto p-3 text-body gap-2">
+    <figure>
+      <div>
+        <blockquote class="blockquote">
+          <p class="mb-0">{{ randomVerse().verseText }}</p>
+        </blockquote>
+        <figcaption class="blockquote-footer">
+          <cite>{{ verseReference() }}</cite>
+        </figcaption>
+      </div>
+      <div class="d-flex flex-row gap-1">
+        <button type="button" class="btn btn-primary" (click)="refresh()">
+          <i class="fa-solid fa-shuffle"></i>
+        </button>
+        <button type="button" class="btn btn-primary" (click)="navigateToChapter()">
+          Read full chapter
+        </button>
+      </div>
+    </figure>
+
+  </div>
+
+</div>

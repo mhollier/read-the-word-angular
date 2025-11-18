@@ -24,19 +24,18 @@ export class ChaptersComponent implements OnChanges {
   bookCode = input<string>('');
   chapterNum = input(0, { transform: numberAttribute });
 
-  readonly bibleCode = signal('WEB');
   readonly book = signal<BookSummary | null>(null);
   readonly chapterRange = signal<number[]>([]);
   readonly verses = signal<ReadonlyArray<Verse>>([]);
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.refresh();
+     this.refresh();
   }
 
   refresh(): void {
-    this.book.set(this.bibleService.getBook(this.bibleCode(), this.bookCode()));
+    this.book.set(this.bibleService.getBook(this.bookCode()));
     this.chapterRange.set(Array.from({ length: this.book()?.chapters ?? 0 }, (_, i) => i + 1));
-    this.verses.set(this.bibleService.getChapterVerses(this.bibleCode(), this.bookCode(), this.chapterNum()));
+    this.verses.set(this.bibleService.getChapterVerses(this.bookCode(), this.chapterNum()));
 
     this.elementRef.nativeElement.querySelector('#verse-1')?.scrollIntoView({
       behavior: "instant",

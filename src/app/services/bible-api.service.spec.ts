@@ -46,20 +46,6 @@ describe('BibleApiService', () => {
     expect(JSON.parse).toHaveBeenCalledTimes(1);
   });
 
-  it('getBibles() should return the parsed bible summary', () => {
-    const summaries = service.getBibles();
-    expect(Array.isArray(summaries)).toBeTrue();
-    expect(summaries.length).toBe(1);
-    expect(summaries[0]).toEqual(fakeSummary);
-  });
-
-  it('getBible(code) should return the single loaded bible regardless of code', () => {
-    const byWeb = service.getBible('WEB');
-    const byOther = service.getBible('ANY');
-    expect(byWeb).toBe(fakeBible);
-    expect(byOther).toBe(fakeBible);
-  });
-
   describe('Book summaries (overridden for isolation)', () => {
     const stubBooks: BookSummary[] = [
       { code: 'GEN', name: 'Genesis', testament: 'OT', chapters: 50 } as any as BookSummary,
@@ -79,30 +65,30 @@ describe('BibleApiService', () => {
     });
 
     it('getBook() should find a book by code or return null', () => {
-      expect(service.getBook('WEB', 'GEN')).toEqual(stubBooks[0]);
-      expect(service.getBook('WEB', 'MAT')).toEqual(stubBooks[1]);
-      expect(service.getBook('WEB', 'PSA')).toBeNull();
+      expect(service.getBook('GEN')).toEqual(stubBooks[0]);
+      expect(service.getBook('MAT')).toEqual(stubBooks[1]);
+      expect(service.getBook('PSA')).toBeNull();
     });
   });
 
   describe('getChapterVerses()', () => {
     it('should return only verses matching bible code, book code, and chapter', () => {
       // Matches WEB/GEN/1 -> first two verses from our fake set
-      const result = service.getChapterVerses('WEB', 'GEN', 1);
+      const result = service.getChapterVerses('GEN', 1);
       expect(result.map(v => `${v.book}.${v.chapter}.${v.verse}`))
         .toEqual(['GEN.1.1', 'GEN.1.2']);
       // Ensure verses from other chapters/books are excluded
       expect(result.find(v => v.chapter !== 1 || v.book !== 'GEN')).toBeUndefined();
     });
 
-    it('should return an empty array when bible code is not found', () => {
-      const result = service.getChapterVerses('UNKNOWN', 'GEN', 1);
+    it('should return an empty array when book code is not found', () => {
+      const result = service.getChapterVerses('XYZ', 1);
       expect(Array.isArray(result)).toBeTrue();
       expect(result.length).toBe(0);
     });
 
     it('should return an empty array when no verses match the book/chapter', () => {
-      const result = service.getChapterVerses('WEB', 'GEN', 99);
+      const result = service.getChapterVerses('GEN', 99);
       expect(result.length).toBe(0);
     });
   });

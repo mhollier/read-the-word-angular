@@ -4,35 +4,43 @@ import { WorldEnglishBibleJson } from '../bibles/web';
 
 @Injectable({ providedIn: 'root' })
 export class BibleApiService {
-  private bibles: Array<BibleFull> = [];
+  private static readonly MAX_VERSE_NUM = 31000;
+
+  private bible: BibleFull;
   private summaries: Array<BibleSummary> = [];
   private bookSummaries: Array<BookSummary> = [];
 
   constructor() {
-    const web: BibleFull = JSON.parse(WorldEnglishBibleJson);
-    this.bibles.push(web);
-    this.summaries.push(web.info);
+    this.bible = JSON.parse(WorldEnglishBibleJson);
+    this.summaries.push(this.bible.info);
     this.bookSummaries = BOOKS;
-  }
-
-  getBibles(): BibleSummary[] {
-    return this.summaries;
-  }
-
-  getBible(bibleCode: string): BibleFull {
-    return this.bibles[0];
   }
 
   getBooks(): ReadonlyArray<BookSummary> {
     return this.bookSummaries;
   }
 
-  getBook(bibleCode: string, bookCode: string): BookSummary | null {
+  getBook(bookCode: string): BookSummary | null {
     return this.bookSummaries.find(b => b.code == bookCode) ?? null;
   }
 
-  getChapterVerses(bibleCode: string, bookCode: string, chapterNum: number): ReadonlyArray<Verse> {
-    const bible = this.bibles.find(b => b.info.code === bibleCode);
-    return bible?.verses.filter(v => v.book === bookCode && v.chapter === chapterNum) ?? [];
+  getChapterVerses(bookCode: string, chapterNum: number): ReadonlyArray<Verse> {
+    return this.bible.verses.filter(v => v.book === bookCode && v.chapter === chapterNum) ?? [];
+  }
+
+  getVerseCount(bookCode: string, chapterNum: number): number {
+    return this.bible.verses.filter(v => v.book === bookCode && v.chapter === chapterNum).length ?? 0;
+  }
+
+  getRandomVerse(): RandomVerse {
+    const index: number = Math.floor(Math.random() * BibleApiService.MAX_VERSE_NUM);
+    const verse = this.bible.verses[index];
+    return {
+      book: verse.book,
+      chapter: verse.chapter,
+      start: verse.verse,
+      end: verse.verse,
+      verseText: verse.verseText
+    };
   }
 }
